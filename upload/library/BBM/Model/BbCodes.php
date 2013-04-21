@@ -409,16 +409,36 @@ class BBM_Model_BbCodes extends XenForo_Model
 		$db = $this->_getDb();
 		$tableExists = $db->query("SHOW TABLES LIKE 'kingk_bbcm'")->rowCount() > 0;
 	
-		if($tableExists)
+		if(!$tableExists)
 		{
-			return $this->fetchAllKeyed('
-				SELECT tag
-				FROM kingk_bbcm
-				ORDER BY tag
-			', 'tag');
+			return array();
 		}
-		
-		return array();
+
+      		$bbcmBbCodes = $this->fetchAllKeyed('
+	      			SELECT *
+      				FROM kingk_bbcm
+      				ORDER BY tag
+	      		', 'tag');
+
+		if(!is_array($bbcmBbCodes))
+		{
+			return array();
+		}	      		
+	      	
+	      	foreach($bbcmBbCodes as $k => $bbcmBbCode)
+	      	{
+	      		if( isset($bbcmBbCode['phpcallback_class']) && $bbcmBbCode['phpcallback_class'] == 'KingK_BbCodeManager_BbCode_Formatter_Default')
+	      		{
+	      			unset($bbcmBbCodes[$k]);
+	      		}
+
+	      		if( isset($bbcmBbCode['template_callback_class']) && $bbcmBbCode['template_callback_class'] == 'KingK_BbCodeManager_BbCode_Formatter_Default')
+	      		{
+	      			unset($bbcmBbCodes[$k]);
+	      		}	      	
+	      	}
+	      	
+	      	return $bbcmBbCodes;
 	}
 
 	public function getBbcmTagByTagName($tag)

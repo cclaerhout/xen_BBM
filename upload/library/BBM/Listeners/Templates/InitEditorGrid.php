@@ -178,7 +178,7 @@ class BBM_Listeners_Templates_InitEditorGrid
 
 		//Server info for buttons icons
 		$server_root = preg_replace('#/\w+?\.\w{3,4}$#', '', $_SERVER["SCRIPT_FILENAME"]);
-		$icons_folder = $server_root . '/styles/BBM/editor/';
+		$icons_folder = $server_root . '/styles/bbm/editor/';
 
 		//Visitor info
 		$visitorUserGroupIds = array_merge(array((string)$visitor['user_group_id']), (explode(',', $visitor['secondary_group_ids'])));
@@ -264,19 +264,19 @@ class BBM_Listeners_Templates_InitEditorGrid
 				{
 	      				if (file_exists($icons_folder . $button['tag'] . '.png'))
 	      				{
-	      					$icon_url = $options->boardUrl . '/styles/BBM/editor/' . $button['tag'] . '.png';
+	      					$icon_url = $options->boardUrl . '/styles/bbm/editor/' . $button['tag'] . '.png';
 	      				}
 	      				elseif (file_exists($icons_folder . $button['tag'] . '.gif'))
 	      				{
-	      					$icon_url = $options->boardUrl . '/styles/BBM/editor/' . $button['tag'] . '.gif';
+	      					$icon_url = $options->boardUrl . '/styles/bbm/editor/' . $button['tag'] . '.gif';
 	      				}
 	      				elseif (file_exists($icons_folder . 'default.png'))
 	      				{
-	      					$icon_url = $options->boardUrl . '/styles/BBM/editor/default.png';
+	      					$icon_url = $options->boardUrl . '/styles/bbm/editor/default.png';
 	      				}
 	      				else
 	      				{
-	      					$icon_url = $options->boardUrl . '/styles/BBM/editor/' . $button['tag'] . '.png';
+	      					$icon_url = $options->boardUrl . '/styles/bbm/editor/' . $button['tag'] . '.png';
 	      				}			
 				}
 	
