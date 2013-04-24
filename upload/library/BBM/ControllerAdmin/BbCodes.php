@@ -351,8 +351,9 @@ class BBM_ControllerAdmin_BbCodes extends XenForo_ControllerAdmin_Abstract
 				'stopSmilies' => XenForo_Input::UINT,
 				'stopLineBreakConversion' => XenForo_Input::UINT,
 				'wrapping_tag' => XenForo_Input::STRING,
-				'wrapping_option' => XenForo_Input::STRING,				
+				'wrapping_option' => XenForo_Input::STRING,
 				'emptyContent_check' => XenForo_Input::UINT,
+				'options_separator' => XenForo_Input::STRING,
 
 				'parser_has_usr' => XenForo_Input::UINT,
 				'parser_return' => XenForo_Input::STRING,
@@ -685,6 +686,7 @@ class BBM_ControllerAdmin_BbCodes extends XenForo_ControllerAdmin_Abstract
 				'wrapping_tag' =>  (string) $BbCode->ParserOptions->wrapping_tag,
 				'wrapping_option' => (string) $BbCode->ParserOptions->wrapping_option,
 				'emptyContent_check' => (int) $BbCode->ParserOptions->emptyContent_check,
+				'options_separator' => (string) $BbCode->ParserOptions->options_separator,
 
 				'parser_has_usr' => (int) $BbCode->ParserPerms->parser_has_usr,
 				'parser_usr' => (string) $BbCode->ParserPerms->parser_usr,

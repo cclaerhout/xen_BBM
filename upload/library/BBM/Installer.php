@@ -84,6 +84,11 @@ class BBM_Installer
 			self::addColumnIfNotExist($db, 'xf_forum', 'bbm_bm_editor', "varchar(25) NOT NULL DEFAULT 'disable'");
 		}
 
+		if(empty($addon) || $addon['version_id'] < 4)
+		{
+			self::addColumnIfNotExist($db, 'bbm', 'options_separator', "varchar(6) DEFAULT NULL");
+		}
+
 		//Generate simple cache (users don't need anymore to edit a bbcode and save it (without operating any change) to activate the Simple Cache
 		XenForo_Model::create('BBM_Model_BbCodes')->simplecachedActiveBbCodes(); 
 	}

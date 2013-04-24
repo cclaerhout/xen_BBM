@@ -180,6 +180,8 @@ class BBM_BbCode_Formatter_Base extends XFCP_BBM_BbCode_Formatter_Base
 		  			{
 		  				$allBbmTags[$bbm['tag']]['emptyContent_check'] = true;
 		  			}
+
+	  				$allBbmTags[$bbm['tag']]['options_separator'] = $bbm['options_separator'];
 		  		}
 		}
 
@@ -335,9 +337,9 @@ class BBM_BbCode_Formatter_Base extends XFCP_BBM_BbCode_Formatter_Base
 			$endRange = preg_replace('#{(\d+?)=[^}]*}#ui', '{$1}', $endRange);
 		}
 
-		if ($tag['option'] && $this->parseMultipleOptions($tag['option']))
+		if ($tag['option'] && $this->parseMultipleOptions($tag['option'], $tagInfo['options_separator']))
 		{
-			$options = $this->parseMultipleOptions($tag['option']);
+			$options = $this->parseMultipleOptions($tag['option'], $tagInfo['options_separator']);
 
 			if(count($options) > $tagInfo['options_number'])
 			{
@@ -414,9 +416,9 @@ class BBM_BbCode_Formatter_Base extends XFCP_BBM_BbCode_Formatter_Base
 		$options = array();
 		$templateName = $tagInfo['template_name'];
 
-		if (!empty($tag['option']) && $this->parseMultipleOptions($tag['option']))
+		if (!empty($tag['option']) && $this->parseMultipleOptions($tag['option'], $tagInfo['options_separator']))
 		{
-			$options = $this->parseMultipleOptions($tag['option']);
+			$options = $this->parseMultipleOptions($tag['option'], $tagInfo['options_separator']);
 			array_unshift($options, 'killMe');
 			unset($options[0]);
 			
@@ -588,11 +590,18 @@ class BBM_BbCode_Formatter_Base extends XFCP_BBM_BbCode_Formatter_Base
 		return $parent;
 	}
 
-	public function parseMultipleOptions($tag)
+	public function parseMultipleOptions($tagOption, $customSeparator)
 	{
-		$separator = (empty($this->_bbmSeparator)) ? ', ' : $this->_bbmSeparator;
+		if(!empty($customSeparator))
+		{
+			$separator = $customSeparator;
+		}
+		else
+		{
+			$separator = (empty($this->_bbmSeparator)) ? ', ' : $this->_bbmSeparator;
+		}
 
-		$attributes = explode($separator, $tag);
+		$attributes = explode($separator, $tagOption);
 		return $attributes;
 	}
 
@@ -1136,7 +1145,6 @@ class BBM_BbCode_Formatter_Base extends XFCP_BBM_BbCode_Formatter_Base
 	protected function _getCurrentTagId($tag)
 	{
 		$tagName = $tag['tag'];
-		$fix = 0;
 
 		if( !isset($this->_bbCodesIncrementation[$tagName]) )
 		{
@@ -1144,7 +1152,7 @@ class BBM_BbCode_Formatter_Base extends XFCP_BBM_BbCode_Formatter_Base
 		}
 		else
 		{
-			$this->_bbCodesIncrementation[$tagName] = $this->_bbCodesIncrementation[$tagName]+1+$fix;
+			$this->_bbCodesIncrementation[$tagName] = $this->_bbCodesIncrementation[$tagName]+1;
 		}
 		
 		return $this->_bbCodesIncrementation[$tagName];

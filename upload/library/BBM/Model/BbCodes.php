@@ -362,8 +362,9 @@ class BBM_Model_BbCodes extends XenForo_Model
 				$ParserOptionsNode->appendChild($document->createElement('stopSmilies', $bbcode['stopSmilies']));
 				$ParserOptionsNode->appendChild($document->createElement('stopLineBreakConversion', $bbcode['stopLineBreakConversion']));
 				$ParserOptionsNode->appendChild($document->createElement('wrapping_tag', $bbcode['wrapping_tag']));
-				$ParserOptionsNode->appendChild($document->createElement('wrapping_option', $bbcode['wrapping_option']));		
+				$ParserOptionsNode->appendChild($document->createElement('wrapping_option', $bbcode['wrapping_option']));	
 				$ParserOptionsNode->appendChild($document->createElement('emptyContent_check', $bbcode['emptyContent_check']));
+				$ParserOptionsNode->appendChild($document->createElement('options_separator', $bbcode['options_separator']));
 				
 			$ParserPerms = $bbcodeNode->appendChild($document->createElement('ParserPerms'));
 				$ParserPerms->appendChild($document->createElement('parser_has_usr', $bbcode['parser_has_usr']));
