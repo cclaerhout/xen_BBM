@@ -260,7 +260,11 @@ class BBM_ControllerAdmin_BbCodes extends XenForo_ControllerAdmin_Abstract
 
 		foreach($bbcodeIds as $bbcodeId)
 		{
-			$this->_enableDisable($bbcodeId);
+			$code = $this->_getBbmBbCodeOrError($bbcodeId);
+			if($code['active'])
+			{
+				$this->_enableDisable($bbcodeId);
+			}
 		}
 		
 		return $this->responseRedirect(

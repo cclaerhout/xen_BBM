@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<addon addon_id="BBM" title="Bb Codes &amp; Buttons Manager" version_string="1.1.3" version_id="4" url="http://xenforo.com/community/resources/bbcodes-buttons-manager.1731/" install_callback_class="BBM_Installer" install_callback_method="install" uninstall_callback_class="BBM_Installer" uninstall_callback_method="uninstall">
+<addon addon_id="BBM" title="Bb Codes &amp; Buttons Manager" version_string="1.1.4" version_id="5" url="http://xenforo.com/community/resources/bbcodes-buttons-manager.1731/" install_callback_class="BBM_Installer" install_callback_method="install" uninstall_callback_class="BBM_Installer" uninstall_callback_method="uninstall">
   <admin_navigation>
     <navigation navigation_id="bbm_bbcodeManager" parent_navigation_id="bbCodeAndSmilies" display_order="100" link="bbm-bbcodes" admin_permission_id="bbm_BbCodesAndButtons" debug_only="0" hide_no_children="0"/>
     <navigation navigation_id="bbm_buttonsManager" parent_navigation_id="bbCodeAndSmilies" display_order="110" link="bbm-buttons" admin_permission_id="bbm_BbCodesAndButtons" debug_only="0" hide_no_children="0"/>
@@ -1695,9 +1695,9 @@ table.bbcm_errors td{
   <cron/>
   <email_templates/>
   <optiongroups>
-    <group group_id="bbm_bbcodemanager" display_order="9999" debug_only="0"/>
-    <group group_id="bbm_buttonmanager" display_order="9999" debug_only="0"/>
-    <group group_id="bbm_xenforo_bbcodes_control" display_order="9999" debug_only="0"/>
+    <group group_id="bbm_bbcodemanager" display_order="13210" debug_only="0"/>
+    <group group_id="bbm_buttonmanager" display_order="13211" debug_only="0"/>
+    <group group_id="bbm_xenforo_bbcodes_control" display_order="13212" debug_only="0"/>
     <option option_id="Bbm_BbCode_Options_Separator" edit_format="textbox" data_type="string" can_backup="1">
       <default_value></default_value>
       <edit_format_params>size=3</edit_format_params>
@@ -1864,6 +1864,30 @@ fake={xen:phrase bbm_xenTags_unparsed_fake}</edit_format_params>
       <sub_options></sub_options>
       <relation group_id="bbm_xenforo_bbcodes_control" display_order="310"/>
     </option>
+    <option option_id="sedo_adv_premium_tag1" edit_format="textbox" data_type="string" can_backup="1">
+      <default_value>premium</default_value>
+      <edit_format_params></edit_format_params>
+      <sub_options></sub_options>
+      <relation group_id="AdvBBcodeBar" display_order="2100"/>
+    </option>
+    <option option_id="sedo_adv_premium_tag2" edit_format="textbox" data_type="string" can_backup="1">
+      <default_value>premium2</default_value>
+      <edit_format_params></edit_format_params>
+      <sub_options></sub_options>
+      <relation group_id="AdvBBcodeBar" display_order="2110"/>
+    </option>
+    <option option_id="sedo_adv_private_tag1" edit_format="textbox" data_type="string" can_backup="1">
+      <default_value>private</default_value>
+      <edit_format_params></edit_format_params>
+      <sub_options></sub_options>
+      <relation group_id="AdvBBcodeBar" display_order="2120"/>
+    </option>
+    <option option_id="sedo_adv_private_tag2" edit_format="textbox" data_type="string" can_backup="1">
+      <default_value>private2</default_value>
+      <edit_format_params></edit_format_params>
+      <sub_options></sub_options>
+      <relation group_id="AdvBBcodeBar" display_order="2130"/>
+    </option>
   </optiongroups>
   <permissions>
     <permission_groups/>
@@ -2018,7 +2042,9 @@ Your callback must return the parsed Bb Code.]]></phrase>
 You have selected <b>{number}</b> methods: <b>{methods}</b>.]]></phrase>
     <phrase title="bbm_error_enter_one_templatename" version_id="0" version_string="1.0"><![CDATA[If you activate the Template Method, you need to enter a template name.]]></phrase>
     <phrase title="bbm_error_invalid_id" version_id="0" version_string="1.0"><![CDATA[Please enter valid BB Code ID.]]></phrase>
+    <phrase title="bbm_error_parser_return_callback_invalid" version_id="4" version_string="1.1.3"><![CDATA[You're using the template method. You can't select "Callback" in your "Parser/View Unauthorised Return".]]></phrase>
     <phrase title="bbm_error_parser_return_invalid" version_id="0" version_string="1.0"><![CDATA[You're using the Replacement method. You can't select "Template/Callback" in your "Parser Unauthorised Return".]]></phrase>
+    <phrase title="bbm_error_parser_return_template_invalid" version_id="4" version_string="1.1.3"><![CDATA[You're using the PHP callback method. You can't select "Template" in your "Parser/View Unauthorised Return".]]></phrase>
     <phrase title="bbm_error_phpcallback_method" version_id="0" version_string="1.0"><![CDATA[Callback method]]></phrase>
     <phrase title="bbm_error_please_enter_valid_template_name" version_id="0" version_string="1.0"><![CDATA[The template "<b>{templateName}</b>" doesn't exist.<br />
 Please enter a valid template name.]]></phrase>
@@ -2318,6 +2344,14 @@ Default option is: no.]]></phrase>
     <phrase title="option_group_bbm_buttonmanager_description" version_id="0" version_string="1.0"><![CDATA[Buttons Manager Options]]></phrase>
     <phrase title="option_group_bbm_xenforo_bbcodes_control" version_id="0" version_string="1.0"><![CDATA[[Bb Codes & Buttons Manager] XenForo Bb Codes Control]]></phrase>
     <phrase title="option_group_bbm_xenforo_bbcodes_control_description" version_id="0" version_string="1.0"><![CDATA[Some configuration options for the XenForo default Bb Codes & system]]></phrase>
+    <phrase title="option_sedo_adv_premium_tag1" version_id="4" version_string="1.1.3"><![CDATA[Premium Bb Code (1) - Tag Name]]></phrase>
+    <phrase title="option_sedo_adv_premium_tag1_explain" version_id="4" version_string="1.1.3"><![CDATA[Please enter here the tag name of one of your premium Bb Codes. This Bb Code <b>must</b> exist. Once you click on the editor button, the tag name will be used to wrap your content.]]></phrase>
+    <phrase title="option_sedo_adv_premium_tag2" version_id="4" version_string="1.1.3"><![CDATA[Premium Bb Code (2) - Tag Name]]></phrase>
+    <phrase title="option_sedo_adv_premium_tag2_explain" version_id="4" version_string="1.1.3"><![CDATA[Please enter here the tag name of one of your premium Bb Codes. This Bb Code <b>must</b> exist. Once you click on the editor button, the tag name will be used to wrap your content.]]></phrase>
+    <phrase title="option_sedo_adv_private_tag1" version_id="4" version_string="1.1.3"><![CDATA[Private Bb Code (1) - Tag Name]]></phrase>
+    <phrase title="option_sedo_adv_private_tag1_explain" version_id="4" version_string="1.1.3"><![CDATA[Please enter here the tag name of one of your private Bb Codes. This Bb Code <b>must</b> exist. Once you click on the editor button, the tag name will be used to wrap your content.]]></phrase>
+    <phrase title="option_sedo_adv_private_tag2" version_id="4" version_string="1.1.3"><![CDATA[Private Bb Code (2) - Tag Name]]></phrase>
+    <phrase title="option_sedo_adv_private_tag2_explain" version_id="4" version_string="1.1.3"><![CDATA[Please enter here the tag name of one of your private Bb Codes. This Bb Code <b>must</b> exist. Once you click on the editor button, the tag name will be used to wrap your content.]]></phrase>
     <phrase title="style_property_bbm_bb_authorised_content_description_master" version_id="0" version_string="1.0"><![CDATA[Protected Bb Code - Authorised state - Content]]></phrase>
     <phrase title="style_property_bbm_bb_authorised_content_master" version_id="0" version_string="1.0"><![CDATA[Protected Bb Code - Authorised content]]></phrase>
     <phrase title="style_property_bbm_bb_authorised_desc_description_master" version_id="0" version_string="1.0"><![CDATA[Protected Bb Code - Authorised state - Description]]></phrase>
@@ -2330,7 +2364,7 @@ Default option is: no.]]></phrase>
     <phrase title="style_property_bbm_bb_protected_desc_master" version_id="0" version_string="1.0"><![CDATA[Protected Bb Code - Protected desc]]></phrase>
     <phrase title="style_property_bbm_spoiler_noscript_textcolor_description_master" version_id="0" version_string="1.0"><![CDATA[Which color should be the text of the spoiler content when browser Javascript option is not activated? Default: @secondaryLightest]]></phrase>
     <phrase title="style_property_bbm_spoiler_noscript_textcolor_master" version_id="0" version_string="1.0"><![CDATA[Bbm Spoiler tag noscript text-color]]></phrase>
-    <phrase title="style_property_group_bbm_bbcodes_master" version_id="0" version_string="1.0"><![CDATA[BBM Bb Codes]]></phrase>
+    <phrase title="style_property_group_bbm_bbcodes_master" version_id="4" version_string="1.1.3"><![CDATA[[Bb Codes & Buttons Manager] Bb Codes]]></phrase>
     <phrase title="style_property_group_bbm_bbcodes_master_desc" version_id="0" version_string="1.0"><![CDATA[Controls the appearance of the Bbm Bb Codes]]></phrase>
   </phrases>
   <route_prefixes>
@@ -2347,8 +2381,8 @@ Default option is: no.]]></phrase>
     <property property_name="bbm_bb_authorised_desc" property_type="css" definition="1" group_name="bbm_bbcodes" title="Protected Bb Code - Authorised desc" description="Protected Bb Code - Authorised state - Description" css_components="text,background,border,layout,extra" scalar_type="" scalar_parameters="" display_order="30" sub_group=""><![CDATA[{"font-size":"12px","font-variant":"small-caps","font-weight":"bold","margin-left":"2px"}]]></property>
     <property property_name="bbm_bb_authorised_content" property_type="css" definition="1" group_name="bbm_bbcodes" title="Protected Bb Code - Authorised content" description="Protected Bb Code - Authorised state - Content" css_components="text,background,border,layout,extra" scalar_type="" scalar_parameters="" display_order="40" sub_group=""><![CDATA[{"border-color":"@primaryDarker","border-radius":"3px","border-style":"dotted","border-width":"1px","margin-all":"5px","padding-all":"5px"}]]></property>
     <property property_name="bbm_bb_can_not_use" property_type="css" definition="1" group_name="bbm_bbcodes" title="Unauthorised Parsing Message" description="Message visual options  when the user can't use the Bb Code" css_components="text,background,border,layout,extra" scalar_type="" scalar_parameters="" display_order="999" sub_group=""><![CDATA[{"color":"@dimmedTextColor","font-size":"12pt","font-style":"italic"}]]></property>
-    <group group_name="bbm_bbcodes" display_order="9999">
-      <title>BBM Bb Codes</title>
+    <group group_name="bbm_bbcodes" display_order="13210">
+      <title>[Bb Codes &amp; Buttons Manager] Bb Codes</title>
       <description>Controls the appearance of the Bbm Bb Codes</description>
     </group>
   </style_properties>

@@ -184,7 +184,7 @@ class BBM_DataWriter_BbCodes extends XenForo_DataWriter
 			}
 		}
 		
-		if(!$phpcallbackMethod & !$templateMethod)
+		if(!$phpcallbackMethod && !$templateMethod)
 		{
 			if(in_array($this->get('parser_return'), array('template', 'callback')))
 			{
@@ -198,6 +198,24 @@ class BBM_DataWriter_BbCodes extends XenForo_DataWriter
 				return false;		
 			}
 		}
+		
+		if($phpcallbackMethod)
+		{
+			if($this->get('parser_return') == 'template' || $this->get('view_return') == 'template')
+			{
+				$this->error(new XenForo_Phrase('bbm_error_parser_return_template_invalid'), 'parserReturn');
+				return false;
+			}
+		}
+
+		if($templateMethod)
+		{
+			if($this->get('parser_return') == 'callback' || $this->get('view_return') == 'callback')
+			{
+				$this->error(new XenForo_Phrase('bbm_error_parser_return_callback_invalid'), 'parserReturn');
+				return false;
+			}
+		}		
 	}
 	
 	protected function _getBbmBbCodeModel()

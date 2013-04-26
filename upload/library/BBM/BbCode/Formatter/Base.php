@@ -32,6 +32,7 @@ class BBM_BbCode_Formatter_Base extends XFCP_BBM_BbCode_Formatter_Base
 	public function bakeBbmTags()
 	{
 		$bbmTags = XenForo_Model::create('BBM_Model_BbCodes')->getAllBbCodes('strict');
+		$visitor = XenForo_Visitor::getInstance();
 		 
 		if(!is_array($bbmTags))
 		{
@@ -58,17 +59,25 @@ class BBM_BbCode_Formatter_Base extends XFCP_BBM_BbCode_Formatter_Base
 		  			}
 		  			elseif($bbm['phpcallback_class'])
 		  			{
-		  				$allBbmTags[$bbm['tag']]['phpcallback_class'] = $bbm['phpcallback_class'];
-		  				$allBbmTags[$bbm['tag']]['phpcallback_method'] = $bbm['phpcallback_method'];
-		  				$allBbmTags[$bbm['tag']]['callback'] = array($this, 'PhpMethodRenderer');
-
-		  				if($bbm['plainCallback'])
-		  				{
-		  					$allBbmTags[$bbm['tag']]['parseCallback'] = array($this, 'parseValidatePlainIfNoOption');
-		  				}
-		  				
-	  					$this->_prepareClassToLoad($bbm['phpcallback_class']);
 		  				$this->_preLoadTemplatesFromCallback($bbm['phpcallback_class'], $bbm['phpcallback_method']);
+		  				
+		  				if( method_exists($bbm['phpcallback_class'], $bbm['phpcallback_method']) )
+		  				{
+		  					$allBbmTags[$bbm['tag']]['phpcallback_class'] = $bbm['phpcallback_class'];
+			  				$allBbmTags[$bbm['tag']]['phpcallback_method'] = $bbm['phpcallback_method'];
+			  				$allBbmTags[$bbm['tag']]['callback'] = array($this, 'PhpMethodRenderer');
+
+	  						$this->_prepareClassToLoad($bbm['phpcallback_class']);
+
+			  				if($bbm['plainCallback'])
+			  				{
+			  					$allBbmTags[$bbm['tag']]['parseCallback'] = array($this, 'parseValidatePlainIfNoOption');
+			  				}	  						
+			  			}
+			  			else
+			  			{
+			  				$allBbmTags[$bbm['tag']]['callback'] = array($this, 'renderInvalidTag');
+			  			}
 		  			}
 		  			elseif($bbm['template_active'])
 		  			{
@@ -80,11 +89,18 @@ class BBM_BbCode_Formatter_Base extends XFCP_BBM_BbCode_Formatter_Base
 
 		  				if($bbm['template_callback_class'])
 		  				{
-			  				$allBbmTags[$bbm['tag']]['template_callback']['class'] = $bbm['template_callback_class'];
-			  				$allBbmTags[$bbm['tag']]['template_callback']['method'] = $bbm['template_callback_method'];
-
-		  					$this->_prepareClassToLoad($bbm['template_callback_class']);
-		  					$this->_preLoadTemplatesFromCallback($bbm['template_callback_class'], $bbm['template_callback_method']);
+			  				if( method_exists($bbm['template_callback_class'], $bbm['template_callback_method']) )
+			  				{
+				  				$allBbmTags[$bbm['tag']]['template_callback']['class'] = $bbm['template_callback_class'];
+				  				$allBbmTags[$bbm['tag']]['template_callback']['method'] = $bbm['template_callback_method'];
+	
+			  					$this->_prepareClassToLoad($bbm['template_callback_class']);
+			  					$this->_preLoadTemplatesFromCallback($bbm['template_callback_class'], $bbm['template_callback_method']);
+			  				}
+			  				else
+				  			{
+				  				$allBbmTags[$bbm['tag']]['callback'] = array($this, 'renderInvalidTag');
+				  			}			  				
 			  			}
 
 		  				if($bbm['plainCallback'])
@@ -147,7 +163,6 @@ class BBM_BbCode_Formatter_Base extends XFCP_BBM_BbCode_Formatter_Base
 		  				
 		  			if($bbm['view_has_usr'])
 		  			{
-						$visitor = XenForo_Visitor::getInstance();
 						$visitorUserGroupIds = array_merge(array((string)$visitor['user_group_id']), (explode(',', $visitor['secondary_group_ids'])));
 						$visitorsOk = unserialize($bbm['view_usr']);
 						$canViewBbCode = (array_intersect($visitorUserGroupIds, $visitorsOk)) ? true : false;
@@ -234,7 +249,9 @@ class BBM_BbCode_Formatter_Base extends XFCP_BBM_BbCode_Formatter_Base
 			}
 		}
 
-		if(!empty($options->Bbm_wrapper_callback) && $options->Bbm_wrapper_callback != 'none')
+		if( 	(!empty($options->Bbm_wrapper_callback) && $options->Bbm_wrapper_callback != 'none')
+			 && method_exists($xenWrapperCallback['class'], $xenWrapperCallback['method'])
+		)
 		{
 			$xenWrapperCallback = $options->get('Bbm_wrapper_callback', false);
 			
@@ -448,7 +465,7 @@ class BBM_BbCode_Formatter_Base extends XFCP_BBM_BbCode_Formatter_Base
 
 		if($fallBack === true)
 		{
-			//Can me modified by the above template Callback
+			//Can be modified by the above template Callback
 			$fallBack = '<div class="template_fallback_' . $tag['tag'] . '">' . $this->renderSubTree($tag['children'], $rendererStates) . '</div>';
 		}
 
@@ -603,6 +620,59 @@ class BBM_BbCode_Formatter_Base extends XFCP_BBM_BbCode_Formatter_Base
 
 		$attributes = explode($separator, $tagOption);
 		return $attributes;
+	}
+
+	/****
+	*	MISC. TAG TOOLS
+	***/
+	public function hasTag($tagName)
+	{
+		return (isset($this->_tags[$tagName]) ? true : false);
+	}
+
+	protected $_tagNewInfo;
+	
+	public function addTagExtra($infoKey, $info, $arrayMode = false)
+	{
+		$tag = $this->currentTag['tag']['tag'];
+		if($arrayMode)
+		{
+			$this->_tagNewInfo[$tag][$infoKey][] = $info;
+		}
+		else
+		{
+			$this->_tagNewInfo[$tag][$infoKey] = $info;		
+		}
+	}	
+	
+	public function getTagExtra($infoKey = false, $arrayKey = false)
+	{
+		if(!$infoKey)
+		{
+			return $this->_tagNewInfo;
+		}
+
+		$tag = $this->currentTag['tag']['tag'];
+		
+		if( !isset($this->_tagNewInfo[$tag])|| !isset($this->_tagNewInfo[$tag][$infoKey]) )
+		{
+			return false;
+		}
+		
+		if($arrayKey)
+		{
+
+			if( isset($this->_tagNewInfo[$tag][$infoKey][$arrayKey]) )
+			{
+				return $this->_tagNewInfo[$tag][$infoKey][$arrayKey];
+			}
+			else
+			{
+				return false;
+			}
+		}
+		
+		return $this->_tagNewInfo[$tag][$infoKey];
 	}
 
 	/****
@@ -826,6 +896,11 @@ class BBM_BbCode_Formatter_Base extends XFCP_BBM_BbCode_Formatter_Base
 
 	public function addWrapper($wrapperTag, $wrapperOptions = false, $separator = false)
 	{
+		if(!$this->hasTag($wrapperTag))
+		{
+			return false;
+		}
+
 		$tag = $this->currentTag['tag']['tag'];
 
 		/*Set wrapper tag*/
