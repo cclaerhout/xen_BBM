@@ -100,7 +100,7 @@ class BBM_Protection_Helper_ContentProtection
 					/***
 					*	Use for: 	- Quotes
 					**/
-					$controllerResponse->params['quote'] = self::parsingProtection($controllerResponse->params['quote']);
+					$controllerResponse->params['quote'] = self::parsingProtection($controllerResponse->params['quote'], true, 'quotes');
 				}
 			}
 		}
@@ -154,7 +154,7 @@ class BBM_Protection_Helper_ContentProtection
 	/****
 	*	Bbm Bb Codes Content Protection tools
 	***/
-	public static function parsingProtection($string, $checkVisitorPerms = true)
+	public static function parsingProtection($string, $checkVisitorPerms = true, $src = null)
 	{
 		if(XenForo_Application::get('options')->get('Bbm_ContentProtection'))
 		{
@@ -162,7 +162,11 @@ class BBM_Protection_Helper_ContentProtection
 			$formatter->setCheckVisitorPerms($checkVisitorPerms);
 			$parser = new XenForo_BbCode_Parser($formatter);
 			$string = $parser->render($string);
-			return $string;
+
+			if($src == 'quotes')
+			{
+				$string.= "\r\n";
+			}			
 		}
 		
 		return $string;
