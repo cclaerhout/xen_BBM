@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<addon addon_id="BBM" title="Bb Codes &amp; Buttons Manager" version_string="1.1.4" version_id="5" url="http://xenforo.com/community/resources/bbcodes-buttons-manager.1731/" install_callback_class="BBM_Installer" install_callback_method="install" uninstall_callback_class="BBM_Installer" uninstall_callback_method="uninstall">
+<addon addon_id="BBM" title="Bb Codes &amp; Buttons Manager" version_string="1.1.5" version_id="6" url="http://xenforo.com/community/resources/bbcodes-buttons-manager.1731/" install_callback_class="BBM_Installer" install_callback_method="install" uninstall_callback_class="BBM_Installer" uninstall_callback_method="uninstall">
   <admin_navigation>
     <navigation navigation_id="bbm_bbcodeManager" parent_navigation_id="bbCodeAndSmilies" display_order="100" link="bbm-bbcodes" admin_permission_id="bbm_BbCodesAndButtons" debug_only="0" hide_no_children="0"/>
     <navigation navigation_id="bbm_buttonsManager" parent_navigation_id="bbCodeAndSmilies" display_order="110" link="bbm-buttons" admin_permission_id="bbm_BbCodesAndButtons" debug_only="0" hide_no_children="0"/>
@@ -2050,6 +2050,7 @@ You have selected <b>{number}</b> methods: <b>{methods}</b>.]]></phrase>
 Please enter a valid template name.]]></phrase>
     <phrase title="bbm_error_replacement_method" version_id="0" version_string="1.0"><![CDATA[Replacement method]]></phrase>
     <phrase title="bbm_error_replacement_method_needed" version_id="0" version_string="1.0"><![CDATA[Enter a replacement method.]]></phrase>
+    <phrase title="bbm_error_tag_must_only_use_alphanumeric" version_id="5" version_string="1.1.4"><![CDATA[The tag name can only use alphanumeric characters or an underscore (a-z, A-Z, 0-9, _). It can also use the sign @ to create an orphan button.]]></phrase>
     <phrase title="bbm_error_tag_must_be_unique" version_id="0" version_string="1.0"><![CDATA[Tag must be unique.]]></phrase>
     <phrase title="bbm_error_template_method" version_id="0" version_string="1.0"><![CDATA[Template method]]></phrase>
     <phrase title="bbm_error_view_return_invalid" version_id="0" version_string="1.0"><![CDATA[You're using the Replacement method. You can't select "Template/Callback" in your "View Unauthorised Return".]]></phrase>

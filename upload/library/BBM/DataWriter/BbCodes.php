@@ -90,7 +90,7 @@ class BBM_DataWriter_BbCodes extends XenForo_DataWriter
 
 		if (preg_match('/[^a-zA-Z0-9_@]/', $tag))
 		{
-			$this->error(new XenForo_Phrase('please_enter_an_id_using_only_alphanumeric'), 'tag');
+			$this->error(new XenForo_Phrase('bbm_error_tag_must_only_use_alphanumeric'), 'tag');
 			return false;
 		}
 		
