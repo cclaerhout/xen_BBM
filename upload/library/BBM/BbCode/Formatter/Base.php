@@ -319,7 +319,7 @@ class BBM_BbCode_Formatter_Base extends XFCP_BBM_BbCode_Formatter_Base
 	public function replacementMethodRenderer(array $tag, array $rendererStates, $increment = true)
 	{
 		$tagInfo = $this->_tags[$tag['tag']];
-		$this->_createCurrentTag($tag, $tagInfo);
+		$this->_createCurrentTag($tag, $tagInfo, $rendererStates);
 
 		if($increment == true)
 		{
@@ -396,7 +396,7 @@ class BBM_BbCode_Formatter_Base extends XFCP_BBM_BbCode_Formatter_Base
 	public function TemplateMethodRenderer(array $tag, array $rendererStates, $increment = true)
 	{
 		$tagInfo = $this->_tags[$tag['tag']];
-		$this->_createCurrentTag($tag, $tagInfo);
+		$this->_createCurrentTag($tag, $tagInfo, $rendererStates);
 
 		if($increment == true)
 		{
@@ -477,7 +477,7 @@ class BBM_BbCode_Formatter_Base extends XFCP_BBM_BbCode_Formatter_Base
 	public function PhpMethodRenderer(array $tag, array $rendererStates, $increment = true)
 	{
 		$tagInfo = $this->_tags[$tag['tag']];
-		$this->_createCurrentTag($tag, $tagInfo);
+		$this->_createCurrentTag($tag, $tagInfo, $rendererStates);
 
 		if($increment == true)
 		{
@@ -523,8 +523,9 @@ class BBM_BbCode_Formatter_Base extends XFCP_BBM_BbCode_Formatter_Base
 	***/
 	
 	public $currentTag;
+	public $currentRendererStates;	
 	
-	protected function _createCurrentTag($tag, array $tagInfo)
+	protected function _createCurrentTag($tag, array $tagInfo, array $rendererStates)
 	{
 		$this->currentTag['tag'] = $tag;
 		
@@ -534,6 +535,7 @@ class BBM_BbCode_Formatter_Base extends XFCP_BBM_BbCode_Formatter_Base
 		}
 		
 		$this->currentTag['tagInfo'] = $tagInfo;
+		$this->currentRendererStates = $rendererStates;
 	}
 
 	/****
@@ -564,7 +566,7 @@ class BBM_BbCode_Formatter_Base extends XFCP_BBM_BbCode_Formatter_Base
 		|| (isset($tagInfo['callback'][1]) && !in_array($tagInfo['callback'][1], array('replacementMethodRenderer', 'PhpMethodRenderer', 'TemplateMethodRenderer')))
 		)
 		{
-			$this->_createCurrentTag($tag, $tagInfo);
+			$this->_createCurrentTag($tag, $tagInfo, $rendererStates);
 
 			if(!isset($rendererStates['stopIncrement']))
 			{
@@ -673,6 +675,70 @@ class BBM_BbCode_Formatter_Base extends XFCP_BBM_BbCode_Formatter_Base
 		}
 		
 		return $this->_tagNewInfo[$tag][$infoKey];
+	}
+
+	public function getAttachmentParams($id, array $validExtensions = null, array $fallbackVisitorPerms = null)
+	{
+		$rendererStates = $this->currentRendererStates;
+
+		if (isset($rendererStates['attachments'][$id]))
+		{
+			$attachment = $rendererStates['attachments'][$id];
+			$validAttachment = true;
+			$canView = empty($rendererStates['viewAttachments']) ? false : true;
+			$url = XenForo_Link::buildPublicLink('attachments', $attachment);
+			$fallbackPerms = false;
+
+			if($validExtensions != null)
+			{
+				if(isset($attachment['extension']))
+				{
+					$validAttachment = (in_array($attachment['extension'], $validExtensions)) ? true : false;
+				}
+			}
+		}
+		else
+		{
+			$attachment = array('attachment_id' => $id);
+			$validAttachment = false;
+			$canView = false;
+			$url = XenForo_Link::buildPublicLink('attachments', $attachment);
+			$fallbackPerms = false;
+			
+			if($fallbackVisitorPerms != null)
+			{
+				foreach($fallbackVisitorPerms as $visitorPerm)
+				{
+					if(!isset($visitorPerm['group']) || !isset($visitorPerm['permission']))
+					{
+						continue;
+					}
+					
+					if(!isset($visitorPerm['permissions']))
+					{
+						$visitor = XenForo_Visitor::getInstance();
+						$visitorPerm['permissions'] = $visitor['permissions'];
+					}
+					
+					$perms = XenForo_Permission::hasPermission($visitorPerm['permissions'], $visitorPerm['group'], $visitorPerm['permission']);
+
+					if($perms == true)
+					{
+						$canView = true;
+						$fallbackPerms = true;
+						break;
+					}
+				}
+			}
+		}
+		
+		return array(
+			'attachment' => $attachment,
+			'validAttachment' => $validAttachment,
+			'canView' => $canView,
+			'url' => $url,
+			'fallbackPerms' => $fallbackPerms
+		);
 	}
 
 	/****
