@@ -13,8 +13,17 @@ class BBM_Listeners_Templates_Admin
    				{
 					break;	   					
 	   			}
-	   			
-	   			$contents .= $template->create('bbm_forum_edit_bbm_editor', $template->getParams());
+				
+				$params = array();
+				
+				if($template->getParam('bbm_bm_editors') == null)
+				{
+					$params = array(
+						'bbm_bm_editors' => XenForo_Model::create('BBM_Model_Buttons')->getEditorConfigsForForums($parent->params['forum']['bbm_bm_editor'])
+					);
+				}
+				
+	   			$contents .= $template->create('bbm_forum_edit_bbm_editor', $params);
 	   		break;
 	   		case 'admin_sidebar_home':
 	   			if (class_exists('KingK_BbCodeManager_BbCodeManager'))
