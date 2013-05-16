@@ -13,15 +13,11 @@ class BBM_Listeners_Templates_Admin
    				{
 					break;	   					
 	   			}
-				
-				$params = array();
-				
-				if($template->getParam('bbm_bm_editors') == null)
-				{
-					$params = array(
-						'bbm_bm_editors' => XenForo_Model::create('BBM_Model_Buttons')->getEditorConfigsForForums($parent->params['forum']['bbm_bm_editor'])
-					);
-				}
+
+				$params = $template->getParams();
+				$params += array(
+					'bbm_bm_editors' => XenForo_Model::create('BBM_Model_Buttons')->getEditorConfigsForForums()
+				);
 				
 	   			$contents .= $template->create('bbm_forum_edit_bbm_editor', $params);
 	   		break;

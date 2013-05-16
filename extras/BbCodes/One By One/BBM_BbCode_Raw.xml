@@ -28,7 +28,7 @@
       </PhpCallback>
     </Methods>
     <ParserOptions>
-      <stopAutoLink>0</stopAutoLink>
+      <stopAutoLink>all</stopAutoLink>
       <parseOptions>0</parseOptions>
       <regex></regex>
       <trimLeadingLinesAfter>0</trimLeadingLinesAfter>

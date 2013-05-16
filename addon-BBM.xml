@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<addon addon_id="BBM" title="Bb Codes &amp; Buttons Manager" version_string="1.1.7" version_id="8" url="http://xenforo.com/community/resources/bbcodes-buttons-manager.1731/" install_callback_class="BBM_Installer" install_callback_method="install" uninstall_callback_class="BBM_Installer" uninstall_callback_method="uninstall">
+<addon addon_id="BBM" title="Bb Codes &amp; Buttons Manager" version_string="1.1.8" version_id="9" url="http://xenforo.com/community/resources/bbcodes-buttons-manager.1731/" install_callback_class="BBM_Installer" install_callback_method="install" uninstall_callback_class="BBM_Installer" uninstall_callback_method="uninstall">
   <admin_navigation>
     <navigation navigation_id="bbm_bbcodeManager" parent_navigation_id="bbCodeAndSmilies" display_order="100" link="bbm-bbcodes" admin_permission_id="bbm_BbCodesAndButtons" debug_only="0" hide_no_children="0"/>
     <navigation navigation_id="bbm_buttonsManager" parent_navigation_id="bbCodeAndSmilies" display_order="110" link="bbm-buttons" admin_permission_id="bbm_BbCodesAndButtons" debug_only="0" hide_no_children="0"/>
@@ -1683,7 +1683,6 @@ table.bbcm_errors td{
     <listener event_id="front_controller_pre_view" execute_order="10" callback_class="BBM_Protection_Helper_ContentProtection" callback_method="controllerPreView" active="1" description="BbCode content protection: get controller &amp; implementation"/>
     <listener event_id="load_class_bb_code" execute_order="10" callback_class="BBM_Listeners_BbCode" callback_method="listen" active="1" description="Listener for Formatter_Base, Autolink &amp; help"/>
     <listener event_id="load_class_controller" execute_order="10" callback_class="BBM_Listeners_BbCode" callback_method="listen" active="1" description="Adds support for display in Help Section"/>
-    <listener event_id="load_class_controller" execute_order="10" callback_class="BBM_Listeners_Controller" callback_method="ControllerAdmin" active="1" description="Extend Controller Admin"/>
     <listener event_id="load_class_datawriter" execute_order="10" callback_class="BBM_Listeners_DataWriter" callback_method="DataWriterAdmin" active="1" description="DataWriter Admin"/>
     <listener event_id="load_class_model" execute_order="10" callback_class="BBM_Protection_Listener_Models" callback_method="protectModels" active="1" description="BbCode content protection: models"/>
     <listener event_id="template_create" execute_order="10" callback_class="BBM_Listeners_Templates_Preloader" callback_method="preloader" active="1" description="Templates preloader"/>
@@ -2050,8 +2049,8 @@ You have selected <b>{number}</b> methods: <b>{methods}</b>.]]></phrase>
 Please enter a valid template name.]]></phrase>
     <phrase title="bbm_error_replacement_method" version_id="0" version_string="1.0"><![CDATA[Replacement method]]></phrase>
     <phrase title="bbm_error_replacement_method_needed" version_id="0" version_string="1.0"><![CDATA[Enter a replacement method.]]></phrase>
-    <phrase title="bbm_error_tag_must_only_use_alphanumeric" version_id="5" version_string="1.1.4"><![CDATA[The tag name can only use alphanumeric characters or an underscore (a-z, A-Z, 0-9, _). It can also use the sign @ to create an orphan button.]]></phrase>
     <phrase title="bbm_error_tag_must_be_unique" version_id="0" version_string="1.0"><![CDATA[Tag must be unique.]]></phrase>
+    <phrase title="bbm_error_tag_must_only_use_alphanumeric" version_id="5" version_string="1.1.4"><![CDATA[The tag name can only use alphanumeric characters or an underscore (a-z, A-Z, 0-9, _). It can also use the sign @ to create an orphan button.]]></phrase>
     <phrase title="bbm_error_template_method" version_id="0" version_string="1.0"><![CDATA[Template method]]></phrase>
     <phrase title="bbm_error_view_return_invalid" version_id="0" version_string="1.0"><![CDATA[You're using the Replacement method. You can't select "Template/Callback" in your "View Unauthorised Return".]]></phrase>
     <phrase title="bbm_export" version_id="0" version_string="1.0"><![CDATA[Export]]></phrase>

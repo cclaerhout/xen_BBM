@@ -28,7 +28,7 @@ This is normal text]]></example>
       </PhpCallback>
     </Methods>
     <ParserOptions>
-      <stopAutoLink>none</stopAutoLink>
+      <stopAutoLink>0</stopAutoLink>
       <parseOptions>0</parseOptions>
       <regex></regex>
       <trimLeadingLinesAfter>1</trimLeadingLinesAfter>
@@ -221,7 +221,7 @@ This is normal text]]></example>
       </PhpCallback>
     </Methods>
     <ParserOptions>
-      <stopAutoLink>0</stopAutoLink>
+      <stopAutoLink>all</stopAutoLink>
       <parseOptions>0</parseOptions>
       <regex></regex>
       <trimLeadingLinesAfter>0</trimLeadingLinesAfter>

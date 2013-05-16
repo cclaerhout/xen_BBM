@@ -679,7 +679,7 @@ class BBM_ControllerAdmin_BbCodes extends XenForo_ControllerAdmin_Abstract
 				'phpcallback_class' => (string) $BbCode->Methods->PhpCallback->class,
 				'phpcallback_method' => (string) $BbCode->Methods->PhpCallback->method,
 
-				'stopAutoLink' => (int) $BbCode->ParserOptions->stopAutoLink,
+				'stopAutoLink' => (string) $BbCode->ParserOptions->stopAutoLink,
 				'regex' => (string) $BbCode->ParserOptions->regex,
 				'trimLeadingLinesAfter' => (int) $BbCode->ParserOptions->trimLeadingLinesAfter,
 				'plainCallback' => (int) $BbCode->ParserOptions->plainCallback,

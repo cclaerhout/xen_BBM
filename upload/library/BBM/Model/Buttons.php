@@ -85,7 +85,7 @@ class BBM_Model_Buttons extends XenForo_Model
 		return 'button_manager_config_' . $type;
 	}
 
-	public function getEditorConfigsForForums($selected)
+	public function getEditorConfigsForForums($selected = 'disable')
 	{
 		return $this->getEditorConfigsForMobile($selected, false);
 	}
